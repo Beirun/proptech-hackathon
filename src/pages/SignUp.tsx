@@ -9,7 +9,7 @@ type User = {
   bday: Date;
   address: string;
   gender: string;
-  role: string
+  role: "agent" | "customer"
 };
 
 const SignUp = () => {
@@ -21,7 +21,7 @@ const SignUp = () => {
     bday: new Date(),
     address: "",
     gender: "",
-    role: ""
+    role: "customer"
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -40,9 +40,27 @@ const SignUp = () => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(user); // Or send to API
+    try {
+      const response = await fetch("/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+
+      if(!response.ok) {
+        throw new Error("Failed to sign-up!");
+      } 
+
+      const result = await response.json() as User;
+      alert("Successfully registered!");
+    } catch(err) {
+      const _err = err as Error;
+      alert(_err.message);
+    }
   };
 
   const handleTogglePassword = () =>{
@@ -51,14 +69,14 @@ const SignUp = () => {
   
   return (
     <>
-      <div className="h-screen w-screen flex justify-center items-center bg-gray-100">
+      <div className="w-screen flex justify-center item-center bg-gray-100">
         
-        <div className="flex flex-col items-center justify-center lg:w-1/3 md:w-2/3 h-full rounded-lg shadow-lg shadow-gray-300 border-2 border-gray-300 bg-slate-50 w-full gap-2">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-2 lg:mb-5 lg:mt-0 -mt-20">
+        <div className="min-h-screen flex items-center flex-col lg:w-1/3 md:w-2/3 rounded-lg shadow-lg shadow-gray-300 border-2 border-gray-300 bg-slate-50 w-full gap-2">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-2 lg:mb-5 lg:mt-0 ">
             Sign Up
           </h1>
 
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center ">
             <fieldset className="fieldset w-2/3">
               <legend className="fieldset-legend">First Name</legend>
               <label className="input input-md lg:input-lg rounded-md w-full">
@@ -119,9 +137,9 @@ const SignUp = () => {
           </div>
 
           <div className="w-full flex justify-center">
-            <div className="w-2/3 flex gap-10 justify-between">
+            <div className="w-2/3 flex gap-2 justify-between">
                 {/* <p className="pointer-events-none absolute bg-base-100 py-1 mt-10 z-10 px-5 pr-10 text-md lg:text-lg">{user.bday != new Date("Jan 1, 1000") ? "Birthdate" : ""}</p> */}
-              <fieldset className="fieldset w-full">
+              <fieldset className="fieldset">
                 <legend className="fieldset-legend">Birthdate</legend>
                 <input
                   name="bday"
@@ -132,7 +150,7 @@ const SignUp = () => {
                 />
               </fieldset>
 
-              <fieldset className="fieldset w-full">
+              <fieldset className="fieldset">
                 <legend className="fieldset-legend">Gender</legend>
                 <select
                   name="gender"
@@ -143,8 +161,8 @@ const SignUp = () => {
                   <option disabled={true} value="">
                     Gender
                   </option>
-                  <option>Male</option>
-                  <option>Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                   <option>Prefer Not To Say</option>
                 </select>
               </fieldset>
@@ -164,8 +182,8 @@ const SignUp = () => {
                   <option disabled={true} value="">
                     Role
                   </option>
-                  <option>Client</option>
-                  <option>Agent</option>
+                  <option value="customer">Client</option>
+                  <option value="agent">Agent</option>
                 </select>
               </fieldset>
           </div>

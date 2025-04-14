@@ -22,8 +22,6 @@ const PropertyCard: React.FC<Props> = ({
   max,
   description
 }) => {
-    console.log("index", index)
-    console.log("max", max)
   return (
     <div className={`card max-w-[350px] bg-base-100 shadow-sm card-md  ${index === max-1 ? "grow-0 lg:grow-0" : "lg:grow"}`}>
       <figure className="h-50  lg:h-70 ">

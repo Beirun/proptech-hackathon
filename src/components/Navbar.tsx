@@ -1,8 +1,8 @@
 const Navbar = () => {
   return (
-    <div className="sticky top-0 z-30 flex h-16 w-full lg:shadow-none shadow-sm shadow-gray-500  justify-center bg-transparent transition-shadow duration-100 print:hidden ">
+    <div className="sticky top-0 z-30 flex h-16 bg-base-100 w-full lg:shadow-none shadow-sm shadow-gray-500  justify-center lg:bg-transparent transition-shadow duration-100 print:hidden ">
       <nav className="navbar w-full">
-        <div className="flex flex-1 items-center md:gap-1 lg:gap-2">
+        <div className="flex flex-1 items-center md:gap-3 lg:gap-2">
           <label
             htmlFor="drawer"
             className="btn btn-circle btn-ghost drawer-button swap swap-rotate lg:hidden"
@@ -32,6 +32,7 @@ const Navbar = () => {
               <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
             </svg>
           </label>
+          <div className="lg:hidden font-mono text-3xl">NetSpace</div>
         </div>
       </nav>
     </div>

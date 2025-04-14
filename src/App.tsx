@@ -8,6 +8,7 @@ import Dashboard from './pages/Client/Dashboard.tsx'
 import AgentDashboard from './pages/Agent/Dashboard.tsx'
 import PropertyList from './pages/Client/PropertyList.tsx'
 import AgentHistory from './pages/Agent/History.tsx'
+import UserProfile from './pages/UserProfile.tsx'
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/list" element={<PropertyList/>}/>
         <Route path="/dashboard/agent" element={<AgentDashboard/>}/>
         <Route path="/history/agent" element={<AgentHistory/>}/>
+        <Route path="/user-profile" element={<UserProfile/>}/>
     </Routes> 
   )
 }

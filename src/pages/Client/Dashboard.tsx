@@ -1,6 +1,7 @@
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 const Dashboard = () => {
+  
   return (
     <div className="drawer w-screen lg:drawer-open mx-auto">
       <input type="checkbox" id="drawer" className="drawer-toggle" />
@@ -22,7 +23,7 @@ const Dashboard = () => {
 
           <div className="card w-[30%] flex flex-row justify-between border-2 border-gray-300  rounded-2xl p-2">
             <figure>
-              <img src="src/assets/sacred-heart-center.jpg" alt="" />
+              <img src="https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp" alt="" />
             </figure>
             <div className="card-body">
               <div className="card-title text-2xl font-bold">Title</div>
@@ -30,7 +31,11 @@ const Dashboard = () => {
               <p className="text-lg">Address</p>
               <p className="text-lg">Description/Content</p>
               <p className="text-lg">Amount:</p>
-              
+              <div className="card-actions">
+                {/* put condition to only render the action the post allows */}
+                <button className="btn bg-primary">Rent</button>
+                <button className="btn bg-secondary">Buy</button>
+              </div>
             </div>
           </div>
         ))}

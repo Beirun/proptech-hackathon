@@ -1,9 +1,16 @@
+import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const sessionRole = sessionStorage.getItem("role");
+    setRole(sessionRole ?? "");
+  }, []);
   const isActive = (pathname: string) => {
     return location.pathname === pathname
   }
@@ -14,7 +21,7 @@ const Sidebar = () => {
 
         <p>Welcome to <br /><span className="text-4xl font-mono">NestSpace</span></p>
         </div>
-      <button onClick={() => navigate('/dashboard/agent')} className={`cursor-pointer flex ${isActive('/dashboard/agent') ? 'text-primary' : ''}`}>
+      <button onClick={() => role === "agent" ?  navigate('/dashboard/agent'): navigate('/dashboard')} className={`cursor-pointer flex ${isActive('/dashboard/agent') ? 'text-primary' : ''}`}>
       {isActive('/dashboard/agent') &&
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
         <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -29,6 +36,14 @@ const Sidebar = () => {
       </svg>
       }
         History</button>
+      <button onClick={() => navigate('/user-profile')} className={`cursor-pointer flex ${isActive('/user-profile') ? 'text-primary' : ''}`}>
+      {isActive('/user-profile') &&
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+      </svg>
+      }
+        Profile</button>
+      <button className="cursor-pointer">Logout</button>
       </div>
     </aside>
   )

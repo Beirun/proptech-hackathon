@@ -1,17 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-type SignInType = {
+type SignInInput = {
   email: string;
   password: string;
 }
 
+type SignInResult = {
+  token: string,
+  user: {
+    id: number,
+    role: "admin" | "agent" | "customer"
+  }
+}
+
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, watch, formState } = useForm<SignInType>();
+  const { register, handleSubmit, watch, formState } = useForm<SignInInput>();
+  const navigator = useNavigate();
 
-  const onSubmit: SubmitHandler<SignInType> = async (data) => {
+  const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     const response = await fetch("/api/users/login", {
       method: "POST",
       headers: {
@@ -25,8 +35,21 @@ const SignIn = () => {
       return;
     }
 
-    const result = await response.json();
-    console.log(result);
+    const result = await response.json() as SignInResult;
+    console.log(result)
+    sessionStorage.setItem("token", result.token);
+    sessionStorage.setItem("role", result.user.role)
+
+    // redirect
+    if (result.user.role === "admin") {
+      navigator("#") // go to admin
+    }
+    else if (result.user.role === "agent") {
+      navigator("/dashboard/agent")
+    }
+    else {
+      navigator("/dashboard") // go to customer
+    }
   };
 
 
@@ -140,14 +163,14 @@ const SignIn = () => {
                   </svg>
                 </label>
               </label>
-              <div className="w-full text-right py-4">
+              {/* <div className="w-full text-right py-4">
                 <Link
                   to="/reset"
                   className="cursor-pointer hover:underline text-primary font-semibold text-lg"
                 >
                   Forgot password?
                 </Link>
-              </div>
+              </div> */}
             </fieldset>
           </div>
           <button className="btn btn-primary btn-lg rounded-md w-2/3 my-5">
