@@ -1,6 +1,80 @@
+import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
+
 const History = () => {
+  const [history, setHistory] = useState<{
+    name: string;
+    description: string;
+    client: {
+      id: number;
+      fname: string;
+      lname: string;
+    },
+    amount: string;
+    status: "rented" | "purchased"
+  }[]>([]);
+
+  const fetchHistory = async () => {
+    const token = await sessionStorage.getItem("token");
+    if(!token) {
+      alert("Missing token!");
+      return;
+    }
+
+    const rentResponse = await fetch("/api/history/rent", { 
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    const purchaseResponse = await fetch("/api/history/purchase", { 
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if(!rentResponse.ok && !purchaseResponse.ok) {
+      alert("Failed to fetch history!");
+      return;
+    }
+
+    const rents = (await rentResponse.json()) as {
+      name: string,
+      description: string,
+      paidAt: Date,
+      client: {
+          id: number,
+          fname: string,
+          lname: string
+      },
+      amount: string
+    }[];
+    const purchases = (await purchaseResponse.json()) as {
+      name: string,
+      description: string,
+      paidAt: Date,
+      client: {
+          id: number,
+          fname: string,
+          lname: string
+      },
+      amount: string
+    }[];
+
+    rents.forEach((rent) => {
+      setHistory((prev) => [...prev, {...rent, status: "rented"}]) 
+    });
+    purchases.forEach((purchase) => {
+      setHistory((prev) => [...prev, {...purchase, status: "purchased"}])
+    });
+  }
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
   return (
 
     <div className="drawer max-w-[100vw] lg:drawer-open ">
@@ -21,23 +95,22 @@ const History = () => {
 
         </div>
         <div className="w-full p-4 gap-4 flex flex-wrap mt-5 justify-center">
-        {[...Array(10).keys()].map(()=>(
+        {history.map((item)=>(
 
           <div className="card max-w-[350px]  border-2 border-gray-300  rounded-2xl p-2">
             <figure>
               <img src="src/assets/sacred-heart-center.jpg" alt="" />
             </figure>
             <div className="card-body">
-              <div className="card-title text-2xl font-bold">Title</div>
+              <div className="card-title text-2xl font-bold">{item.name}</div>
               <p className="text-sm">Name</p>
-              <p className="text-lg">Address</p>
-              <p className="text-lg">Description/Content</p>
-              <p className="text-lg">Amount</p>
-              <p className="text-lg">Bought/Rented by:</p>
-              <p className="text-lg">Duration</p>
-              <p className="text-lg">Status: (downpayment/paid)</p>
-              <p className="text-lg">Total Amount:</p>
-              
+              <p className="text-lg"></p>
+              <p className="text-lg">{item.description}</p>
+              <p className="text-lg">₱{item.amount}</p>
+              <p className="text-lg">
+                { item.status === "rented" ? "Rented by: " : "Purchased by: " }
+                {item.client.fname} { item.client.lname }
+              </p>
             </div>
           </div>
         ))}
