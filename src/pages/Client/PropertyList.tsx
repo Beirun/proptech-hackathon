@@ -118,7 +118,7 @@ const PropertyList = () => {
                     <div className="grow skeleton h-4 w-full"></div>
                   </div>
                 ))
-              : properties.map((property, index) => (
+              : properties.reverse().map((property, index) => (
                   <PropertyCard
                     key={index}
                     title={property.name}
