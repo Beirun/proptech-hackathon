@@ -255,7 +255,7 @@ const Dashboard = () => {
         <div className="max-w-[100vw] relative ">
         {!isLoaded ?(
             <>
-            <div className="flex gap-10">
+            <div className="flex gap-10 justify-center">
 
             {[...Array(2).keys()].map(() => (
               <div className="flex w-[45%] min-w-[250px] flex-wrap gap-4">
@@ -269,6 +269,8 @@ const Dashboard = () => {
             ))}
             
             </div>
+            <div className="flex justify-center">
+
             <div className="flex w-[95%] min-w-[250px] flex-wrap gap-4 pt-10">
                 <div className="grow skeleton h-50 w-full"></div>
                 <div className="grow skeleton h-4 w-28"></div>
@@ -276,6 +278,7 @@ const Dashboard = () => {
                 <div className="grow skeleton h-4 w-full"></div>
                 <div className="grow skeleton h-4 w-full"></div>
               </div>
+            </div>
             </>
           ) :(
         <div className="container mx-auto p-4">
