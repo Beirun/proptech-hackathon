@@ -195,7 +195,7 @@ const PropertyList = () => {
                         document.getElementById("create_post") as HTMLDialogElement
                       )?.showModal();
                     }}
-                    className="btn btn-outline btn-md btn-success">Rent</button>
+                    className="btn btn-outline px-10 btn-lg btn-success">Rent</button>
                     <dialog id="create_post" className="modal w-full h-full ">
             <div className="modal-box w-full lg:w-3/5 h-[200px] bg-white flex flex-col gap-5 ">
               <div className="modal-title text-xl text-center font-bold">
@@ -220,7 +220,7 @@ const PropertyList = () => {
                         document.getElementById("buy") as HTMLDialogElement
                       )?.showModal();
                     }}
-                    className="btn btn-outline btn-md btn-primary">Buy</button>
+                    className="btn btn-outline btn-lg px-10 btn-primary">Buy</button>
                     <dialog id="buy" className="modal w-full h-full ">
             <div className="modal-box w-full lg:w-3/5 h-[200px] bg-white flex flex-col gap-5 ">
               <div className="modal-title text-xl text-center font-bold">
@@ -238,7 +238,7 @@ const PropertyList = () => {
           </dialog>
                         </>
                   )}
-                  <button 
+                  {/* <button 
                   onClick={() => {
                     (
                       document.getElementById("sched") as HTMLDialogElement
@@ -251,7 +251,7 @@ const PropertyList = () => {
             <div className="modal-box w-full lg:w-3/5 h-6/7 bg-white flex flex-col gap-5 ">
               
             </div>
-          </dialog>
+          </dialog> */}
                 </div>
                 <div className="divider"></div>
                 <MapContainer
